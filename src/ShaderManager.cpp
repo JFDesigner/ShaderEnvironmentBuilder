@@ -2,6 +2,7 @@
 #include "ngl/Light.h"
 #include "ngl/Material.h"
 #include "ngl/Texture.h"
+#include <QTime>
 
 #include "ShaderManager.h"
 
@@ -131,10 +132,12 @@ void ShaderManager::initialize()
     shaderLib->setShaderParam1i("drawFaceNormals",true);
     shaderLib->setShaderParam1i("drawVertexNormals",true);
     ///End of Citation
+    shaderLib->setRegisteredUniform("time",0.0f);
 
 
     // set initialise flag to true
     m_init = true;
+
   }
 }
 
@@ -270,4 +273,15 @@ bool ShaderManager::checkAllCompileError(QString *o_log)
       isAllCompiled = isCompiled;
   }
   return isAllCompiled;
+}
+
+//------------------------------------------------------------------------------------------------------------------------
+
+void ShaderManager::setTime(QTimerEvent *_event)
+{
+  static float t=0.0f;
+  ngl::ShaderLib *shaderLib=ngl::ShaderLib::instance();
+  shaderLib->setShaderParam1f("time",t);
+  t+=0.01;
+  std::cout << t << std::endl;
 }

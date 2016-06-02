@@ -26,3 +26,5 @@ uniform Lights light;
 uniform Materials material;
 uniform float time;
 uniform float repeat;
+uniform sampler2D tex;
+

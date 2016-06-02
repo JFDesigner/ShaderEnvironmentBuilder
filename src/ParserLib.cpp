@@ -53,84 +53,92 @@ void ParserLib::initializeUniformData()
     tempLoc=glGetUniformLocation(id,uniformName);
 
     // set a different data type depending on typeData
-    switch(type)
+    if (strncmp(uniformName, "time", 4) == 0)
     {
-      case GL_BOOL:
+      m_uniformList.erase(m_uniformList.begin()+(i-m_ignoreUniformIDs.size()));
+      m_ignoreUniformIDs.push_back(i);
+    }
+    else
+    {
+      switch(type)
       {
-        UniformDataBool* newData= new UniformDataBool(uniformName,
-                                                      tempLoc,
-                                                      type);
-        // Add UniformData to the currently registeredUniforms
-        // m_registeredUniforms[uniformName]=newData;
-        m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
-        break;
-      }
-      case GL_FLOAT:
-      {
-        UniformDataFloat* newData= new UniformDataFloat(uniformName,
+        case GL_BOOL:
+        {
+          UniformDataBool* newData= new UniformDataBool(uniformName,
                                                         tempLoc,
                                                         type);
-        // Add UniformData to the currently registeredUniforms
-        // m_registeredUniforms[uniformName]=newData;
-        m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
-        break;
-      }
-      case GL_INT:
-      {
-        UniformDataInt* newData= new UniformDataInt(uniformName,
+          // Add UniformData to the currently registeredUniforms
+          // m_registeredUniforms[uniformName]=newData;
+          m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
+          break;
+        }
+        case GL_FLOAT:
+        {
+          UniformDataFloat* newData= new UniformDataFloat(uniformName,
+                                                          tempLoc,
+                                                          type);
+          // Add UniformData to the currently registeredUniforms
+          // m_registeredUniforms[uniformName]=newData;
+          m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
+          break;
+        }
+        case GL_INT:
+        {
+          UniformDataInt* newData= new UniformDataInt(uniformName,
+                                                      tempLoc,
+                                                      type);
+          // Add UniformData to the currently registeredUniforms
+          // m_registeredUniforms[uniformName]=newData;
+          m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
+          break;
+        }
+        case GL_FLOAT_VEC3:
+        {
+          UniformDataV3* newData= new UniformDataV3(uniformName,
                                                     tempLoc,
                                                     type);
-        // Add UniformData to the currently registeredUniforms
-        // m_registeredUniforms[uniformName]=newData;
-        m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
-        break;
-      }
-      case GL_FLOAT_VEC3:
-      {
-        UniformDataV3* newData= new UniformDataV3(uniformName,
-                                                  tempLoc,
-                                                  type);
-        // Add UniformData to the currently registeredUniforms
-        // m_registeredUniforms[uniformName]=newData;
-        m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
-        break;
-      }
-      case GL_FLOAT_VEC4:
-      {
-        UniformDataV4* newData= new UniformDataV4(uniformName,
-                                                  tempLoc,
-                                                  type);
-        // Add UniformData to the currently registeredUniforms
-        // m_registeredUniforms[uniformName]=newData;
-        m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
-        break;
-      }
-      case GL_FLOAT_MAT3:
-      {
-        UniformDataM3* newData= new UniformDataM3(uniformName,
-                                                  tempLoc,
-                                                  type);
-        // Add UniformData to the currently registeredUniforms
-        // m_registeredUniforms[uniformName]=newData;
-        m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
-        break;
-      }
-      case GL_FLOAT_MAT4:
-      {
-        UniformDataM4* newData= new UniformDataM4(uniformName,
-                                                  tempLoc,
-                                                  type);
-        // Add UniformData to the currently registeredUniforms
-        // m_registeredUniforms[uniformName]=newData;
-        m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
-        break;
-      }
-      default:
-      {
-        std::cout<<"unrecognised data type name"<<std::endl;
-        m_uniformList.erase(m_uniformList.begin()+(i-m_ignoreUniformIDs.size()));
-        m_ignoreUniformIDs.push_back(i);
+          // Add UniformData to the currently registeredUniforms
+          // m_registeredUniforms[uniformName]=newData;
+          m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
+          break;
+        }
+        case GL_FLOAT_VEC4:
+        {
+          UniformDataV4* newData= new UniformDataV4(uniformName,
+                                                    tempLoc,
+                                                    type);
+          // Add UniformData to the currently registeredUniforms
+          // m_registeredUniforms[uniformName]=newData;
+          m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
+          break;
+        }
+        case GL_FLOAT_MAT3:
+        {
+          UniformDataM3* newData= new UniformDataM3(uniformName,
+                                                    tempLoc,
+                                                    type);
+          // Add UniformData to the currently registeredUniforms
+          // m_registeredUniforms[uniformName]=newData;
+          m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
+          break;
+        }
+        case GL_FLOAT_MAT4:
+        {
+          UniformDataM4* newData= new UniformDataM4(uniformName,
+                                                    tempLoc,
+                                                    type);
+          // Add UniformData to the currently registeredUniforms
+          // m_registeredUniforms[uniformName]=newData;
+          m_uniformList[i-m_ignoreUniformIDs.size()]=newData;
+          break;
+        }
+        default:
+        {
+          std::cout<<"unrecognised data type name"<<std::endl;
+          m_uniformList.erase(m_uniformList.begin()+(i-m_ignoreUniformIDs.size()));
+          m_ignoreUniformIDs.push_back(i);
 
+        }
       }
     }
   }
