@@ -347,6 +347,11 @@ private:
   //----------------------------------------------------------------------------
   void                        keyPressEvent(QKeyEvent *_event);
   //----------------------------------------------------------------------------
+  /// @brief this method should be called at a set tick
+  /// @param _event the Qt Event structure
+  //----------------------------------------------------------------------------
+  void                        timerEvent(QTimerEvent *_event);
+  //----------------------------------------------------------------------------
   /// @brief Set object transformations depending on the shape type
   /// @param _event the Qt Event structure
   //----------------------------------------------------------------------------

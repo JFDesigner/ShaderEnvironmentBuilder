@@ -9,12 +9,14 @@
 #include <ngl/VAOPrimitives.h>
 #include <ngl/Material.h>
 #include <ngl/ShaderLib.h>
+#include <ngl/Texture.h>
 #include <iostream>
 #include <typeinfo>
 #include <QColorDialog>
 #include <QString>
 #include <QFileDialog>
-#include <ngl/Texture.h>
+#include <QTime>
+
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief the increment for x/y translation with mouse movement
@@ -58,6 +60,8 @@ NGLScene::NGLScene( QWidget *_parent, ParserLib *_libParent,
   // set this widget to have the initial keyboard focus
   setFocus();
   connect(this, SIGNAL(initializeGL()), this, SLOT(initGL()));
+
+  startTimer(20);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -718,4 +722,14 @@ void NGLScene::drawAxis(ngl::Vec3 _pos)
   shaderLib->setShaderParam4f("Colour",0,0,1,1); //Not entirely sure if this is the best way, as the name "Colour" could be changed....
   prim->draw("cube");
   m_transform.reset();
+}
+//------------------------------------------------------------------------------
+void NGLScene::timerEvent(QTimerEvent *_event)
+{
+  static float t=0.0f;
+  ngl::ShaderLib *shaderLib=ngl::ShaderLib::instance();
+  m_shaderManager->use(0);
+  shaderLib->setRegisteredUniform1f("time",t);
+  t+=0.01;
+  update();
 }
